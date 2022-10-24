@@ -1,10 +1,6 @@
 package ch.bbw.m151.jokesdb.datamodel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "jokes")
@@ -16,6 +12,9 @@ public class JokesEntity {
 
 	@Column(nullable = false)
 	String joke;
+
+	@Version
+	private int version;
 
 	public JokesEntity setJoke(String joke) {
 		this.joke = joke;
