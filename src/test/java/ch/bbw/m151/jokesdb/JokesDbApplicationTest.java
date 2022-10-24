@@ -39,4 +39,11 @@ public class JokesDbApplicationTest implements WithAssertions {
 				.expectBodyList(JokesEntity.class)
 				.hasSize(pageSize);
 	}
+
+	@Test
+	void nullability() {
+		class Null {}
+		var _null = new Null();
+		assertThat(_null).isNotNull();
+	}
 }
