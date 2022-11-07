@@ -1,5 +1,7 @@
 package ch.bbw.m151.jokesdb.datamodel;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,32 +12,23 @@ import java.sql.Date;
 @Table(name = "jokes")
 public class JokesEntity {
 
-	@Id
-	@GeneratedValue
-	int id;
+    @Id
+    @GeneratedValue
+    @Getter
+    @Setter
+    int id;
 
-	@Column(nullable = false)
-	String joke;
+    @Column(nullable = false)
+    @Getter
+    @Setter
+    String joke;
 
-	@Version
-	private int version;
+    @Version
+    private int version;
 
-	@CreationTimestamp
-	private Date createdOn;
+    @CreationTimestamp
+    private Date createdOn;
 
-	@UpdateTimestamp
-	private Date updatedOn;
-
-	public JokesEntity setJoke(String joke) {
-		this.joke = joke;
-		return this;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getJoke() {
-		return joke;
-	}
+    @UpdateTimestamp
+    private Date updatedOn;
 }
