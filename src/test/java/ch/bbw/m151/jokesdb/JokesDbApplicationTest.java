@@ -2,6 +2,7 @@ package ch.bbw.m151.jokesdb;
 
 import ch.bbw.m151.jokesdb.datamodel.JokesEntity;
 import ch.bbw.m151.jokesdb.repository.JokesRepository;
+import ch.bbw.m151.jokesdb.service.JokesApiClientService;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ public class JokesDbApplicationTest implements WithAssertions {
 
 	@Autowired
 	private WebTestClient webTestClient;
+
+	@Autowired
+	private JokesApiClientService apiClient;
+
 
 	@Test
 	void jokesAreLoadedAtStartup() {
@@ -45,5 +50,12 @@ public class JokesDbApplicationTest implements WithAssertions {
 		class Null {}
 		var _null = new Null();
 		assertThat(_null).isNotNull();
+	}
+
+	@Test
+	void fetchOneJoke() {
+		var joke = apiClient.fetchJokes();
+		assertThat(joke).isNotNull();
+		System.out.println(joke);
 	}
 }

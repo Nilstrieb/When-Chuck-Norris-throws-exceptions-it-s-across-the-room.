@@ -1,8 +1,10 @@
 package ch.bbw.m151.jokesdb.service;
 
 import ch.bbw.m151.jokesdb.datamodel.JokeDto;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Service
 public class JokesApiClientService {
     private final WebClient client;
 
