@@ -8,15 +8,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class JokeDto {
-    private String category;
-    private String type;
-
-    private String setup;
-    private String delivery;
-
     private String joke;
-
-    private Integer id;
-    private Boolean safe;
-    private String lang;
 }
