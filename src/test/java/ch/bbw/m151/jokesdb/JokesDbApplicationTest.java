@@ -54,7 +54,7 @@ public class JokesDbApplicationTest implements WithAssertions {
 
 	@Test
 	void fetchOneJoke() {
-		var joke = apiClient.fetchJokes();
+		var joke = apiClient.fetchJoke();
 		assertThat(joke).isNotNull();
 		System.out.println(joke);
 	}

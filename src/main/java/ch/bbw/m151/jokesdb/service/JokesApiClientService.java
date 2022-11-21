@@ -1,6 +1,6 @@
 package ch.bbw.m151.jokesdb.service;
 
-import ch.bbw.m151.jokesdb.datamodel.JokeDto;
+import ch.bbw.m151.jokesdb.datamodel.JokeApiDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -12,7 +12,7 @@ public class JokesApiClientService {
         this.client = WebClient.create("https://v2.jokeapi.dev");
     }
 
-    public JokeDto fetchJokes() {
-        return this.client.get().uri("/joke/Programming").retrieve().bodyToMono(JokeDto.class).block();
+    public JokeApiDto fetchJoke() {
+        return this.client.get().uri("/joke/Programming?type=single").retrieve().bodyToMono(JokeApiDto.class).block();
     }
 }
