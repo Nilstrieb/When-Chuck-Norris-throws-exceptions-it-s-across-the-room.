@@ -18,10 +18,14 @@ public class JokesEntity {
     @Setter
     int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 999999)
     @Getter
     @Setter
     String joke;
+
+    @Getter
+    @Setter
+    Integer totalRatings;
 
     @Version
     private int version;

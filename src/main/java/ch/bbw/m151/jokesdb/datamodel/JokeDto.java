@@ -9,4 +9,6 @@ import lombok.ToString;
 @ToString
 public class JokeDto {
     private String joke;
+
+    private Integer jokeId;
 }

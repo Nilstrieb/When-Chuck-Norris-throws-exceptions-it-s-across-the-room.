@@ -1,6 +1,5 @@
 package ch.bbw.m151.jokesdb.service;
 
-import ch.bbw.m151.jokesdb.datamodel.JokeApiDto;
 import ch.bbw.m151.jokesdb.datamodel.JokeDto;
 import ch.bbw.m151.jokesdb.datamodel.JokesEntity;
 import ch.bbw.m151.jokesdb.repository.JokesRepository;
@@ -9,26 +8,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Random;
+import java.util.Optional;
 
 @Service
 public class JokesService {
 
     private static final Logger log = LoggerFactory.getLogger(JokesService.class);
 
-    private final Random random;
     private final JokesRepository jokesRepository;
 
     private final JokesApiClientService apiClientService;
 
     public JokesService(JokesRepository jokesRepository, JokesApiClientService apiClientService) {
-        this.random = new Random();
         this.jokesRepository = jokesRepository;
         this.apiClientService = apiClientService;
     }
@@ -48,21 +44,27 @@ public class JokesService {
         }
     }
 
-    public JokeApiDto fetchJokeIntoDb() {
-        JokeApiDto newJoke = this.apiClientService.fetchJoke();
-        var jokeEntity = new JokesEntity().setId(newJoke.getId()).setJoke(newJoke.getJoke());
-        this.jokesRepository.save(jokeEntity);
-        return newJoke;
-    }
-
     public JokeDto getJokeCached() {
-        if (random.nextBoolean()) {
-            var joke = this.jokesRepository.findOne(Example.of(new JokesEntity()));
+        var newJoke = this.apiClientService.fetchJoke();
 
-            return joke.map(jokesEntity -> new JokeDto().setJoke(jokesEntity.getJoke()))
-                    .orElseGet(() -> new JokeDto().setJoke(this.fetchJokeIntoDb().getJoke()));
+        while (this.jokesRepository.findById(newJoke.getId()).isPresent()) {
+            newJoke = this.apiClientService.fetchJoke();
         }
 
-        return new JokeDto().setJoke(this.fetchJokeIntoDb().getJoke());
+        var jokeEntity = new JokesEntity().setId(newJoke.getId()).setJoke(newJoke.getJoke());
+        this.jokesRepository.save(jokeEntity);
+
+        return new JokeDto().setJoke(jokeEntity.getJoke()).setJokeId(jokeEntity.getId());
+    }
+
+    public Optional<Void> addRating(int jokeId, int rating) {
+        return this.jokesRepository.findById(jokeId).map(oldJoke ->{
+            // guard against overflow
+            var ratings = Integer.max(oldJoke.getTotalRatings() + rating, oldJoke.getTotalRatings());
+            var newJoke = oldJoke.setTotalRatings(ratings);
+            // this has a race condition actually
+            this.jokesRepository.save(newJoke);
+            return null;
+        });
     }
 }
