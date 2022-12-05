@@ -58,7 +58,7 @@ public class JokesService {
     }
 
     public Optional<Void> addRating(int jokeId, int rating) {
-        return this.jokesRepository.findById(jokeId).map(oldJoke ->{
+        return this.jokesRepository.findById(jokeId).map(oldJoke -> {
             // guard against overflow
             var ratings = Integer.max(oldJoke.getTotalRatings() + rating, oldJoke.getTotalRatings());
             var newJoke = oldJoke.setTotalRatings(ratings);

@@ -16,46 +16,47 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @AutoConfigureMockMvc
 public class JokesDbApplicationTest implements WithAssertions {
 
-	@Autowired
-	JokesRepository jokesRepository;
+    @Autowired
+    JokesRepository jokesRepository;
 
-	@Autowired
-	private WebTestClient webTestClient;
+    @Autowired
+    private WebTestClient webTestClient;
 
-	@Autowired
-	private JokesApiClientService apiClient;
+    @Autowired
+    private JokesApiClientService apiClient;
 
 
-	@Test
-	void jokesAreLoadedAtStartup() {
-		var jokes = jokesRepository.findAll();
-		assertThat(jokes).hasSizeGreaterThan(100)
-				.allSatisfy(x -> assertThat(x.getJoke()).isNotEmpty());
-	}
+    @Test
+    void jokesAreLoadedAtStartup() {
+        var jokes = jokesRepository.findAll();
+        assertThat(jokes).hasSizeGreaterThan(100)
+                .allSatisfy(x -> assertThat(x.getJoke()).isNotEmpty());
+    }
 
-	@Test
-	void jokesCanBeRetrievedViaHttpGet() {
-		var pageSize = 5;
-		webTestClient.get()
-				.uri("/jokes?page={page}&size={size}", 1, pageSize)
-				.exchange()
-				.expectStatus()
-				.is2xxSuccessful()
-				.expectBodyList(JokesEntity.class)
-				.hasSize(pageSize);
-	}
+    @Test
+    void jokesCanBeRetrievedViaHttpGet() {
+        var pageSize = 5;
+        webTestClient.get()
+                .uri("/jokes?page={page}&size={size}", 1, pageSize)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBodyList(JokesEntity.class)
+                .hasSize(pageSize);
+    }
 
-	@Test
-	void nullability() {
-		class Null {}
-		var _null = new Null();
-		assertThat(_null).isNotNull();
-	}
+    @Test
+    void nullability() {
+        class Null {
+        }
+        var _null = new Null();
+        assertThat(_null).isNotNull();
+    }
 
-	@Test
-	void fetchOneJoke() {
-		var joke = apiClient.fetchJoke();
-		assertThat(joke).isNotNull();
-		System.out.println(joke);
-	}
+    @Test
+    void fetchOneJoke() {
+        var joke = apiClient.fetchJoke();
+        assertThat(joke).isNotNull();
+        System.out.println(joke);
+    }
 }
