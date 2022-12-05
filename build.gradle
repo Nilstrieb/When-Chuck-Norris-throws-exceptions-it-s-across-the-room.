@@ -49,7 +49,3 @@ bootRun {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-rootProject {
-    name "bbw-151-jokesdb"
-}
