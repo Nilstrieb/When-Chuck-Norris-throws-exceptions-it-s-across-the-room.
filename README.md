@@ -17,6 +17,20 @@ jdbc:postgresql://localhost:5432/localdb
 User: localuser, Password: localpass
 ```
 
+# Architecture
+
+This program was tested on x86_64 but should work on any architecture that has Java support.
+
+> No, I mean the software architecture.
+
+There is one central entity in the data model: the joke. Jokes can be fetched and rated.
+
+On the `GET /joke` endpoint, a new joke can be fetched. Jokes are deduplicated with a postgres database.
+
+> Using postgres was a mistake as it makes everything more annoying. This should have been a sqlite db instead.
+
+These jokes can then also be rated using the `POST /joke/{jokeId}/rate` endpoint.
+
 # Contribution guide
 
 ## Style guide
