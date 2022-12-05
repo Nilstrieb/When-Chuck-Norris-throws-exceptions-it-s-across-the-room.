@@ -16,3 +16,17 @@ View | Tool Windows | Database | + | Data Source from URL
 jdbc:postgresql://localhost:5432/localdb
 User: localuser, Password: localpass
 ```
+
+# Contribution guide
+
+## Style guide
+
+Use the default Java Spring naming conventions. Services `*Service`, repositories `*Repository`, controllers `*Controller`.
+
+Formatting uses the default IntelliJ config, whatever that is.
+
+## Pull requests
+
+Changes must be submitted via a pull request. This project uses [bors-ng](https://bors.tech/) to ensure that master is always green.
+
+Every pull request should follow the pull request template and, in spirit with the project, include one joke at the end.
