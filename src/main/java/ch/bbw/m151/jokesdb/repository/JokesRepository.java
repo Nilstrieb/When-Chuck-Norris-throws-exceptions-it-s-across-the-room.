@@ -2,7 +2,6 @@ package ch.bbw.m151.jokesdb.repository;
 
 import ch.bbw.m151.jokesdb.datamodel.JokesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
